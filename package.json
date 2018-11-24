@@ -1,0 +1,16 @@
+{
+  "name": "root",
+  "private": true,
+  "devDependencies": {
+    "lerna": "^3.4.3"
+  },
+  "scripts": {},
+  "dependencies": {
+    "husky": "^1.2.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lerna exec npx lint-staged"
+    }
+  }
+}

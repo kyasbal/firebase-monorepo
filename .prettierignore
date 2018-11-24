@@ -1,0 +1,4 @@
+**/package-lock.json
+*.scss.d.ts
+**/lib/
+**/node_modules/
