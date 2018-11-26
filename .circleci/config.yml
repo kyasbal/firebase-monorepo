@@ -5,10 +5,20 @@
 version: 2.1
 executors:
   node:
-    docker: circleci/node:8
+    docker: 
+      - image: circleci/node:8
 commands:
+  restore_built:
+    description: "Restore the build result from cache"
+    steps:
+      - restore_cache:
+          key: built-api-schema-{{ .Revision }}
+      - restore_cache:
+          key: built-client-{{ .Revision }}
+      - restore_cache:
+          key: built-server-{{ .Revision }}
   restore_dependency:
-    description: "Restore the dependencies from cache"
+    description: "Restore the dependencies result from cache"
     steps:
       - restore_cache:
           keys:
@@ -25,7 +35,8 @@ commands:
       - restore_cache:
           keys:
             - dependencies-server-{{ checksum "packages/server/package.json" }}
-            - dependencies-server-
+            - dependencies-server-    
+jobs:
   install_dependency:
     executor: node
     steps:
@@ -37,20 +48,71 @@ commands:
       - run:
           name: サブプロジェクトの依存関係のインストール
           command: npx lerna bootstrap
+      - run:
+          name: package.jsonの避難
+          command: cp ./package.json ./package.copy.json
+      - run:
+          name: package.jsonの避難
+          command: cp ./packages/api-schema/package.json ./packages/api-schema/package.copy.json
+      - run:
+          name: package.jsonの避難
+          command: cp ./packages/client/package.json ./packages/client/package.copy.json
+      - run:
+          name: package.jsonの避難
+          command: cp ./packages/server/package.json ./packages/server/package.copy.json
       - save_cache:
           paths:
             - ./node_modules/
-          key: dependencies-root-{{ checksum "package.json" }}
+          key: dependencies-root-{{ checksum "package.copy.json" }}
       - save_cache:
           paths:
             - ./packages/api-schema/node_modules/
-          key: dependencies-root-api-schema-{{ checksum "package.json" }}
+          key: dependencies-api-schema-{{ checksum "packages/api-schema/package.copy.json }}
       - save_cache:
           paths:
             - ./packages/client/node_modules/
-          key: dependencies-root-client-{{ checksum "package.json" }}
+          key: dependencies-client-{{ checksum "packages/client/package.copy.json" }}
       - save_cache:
           paths:
             - ./packages/server/node_modules/
-          key: dependencies-root-server-{{ checksum "package.json" }}
-      
+          key: dependencies-server-{{ checksum "packages/server/package.copy.json" }}
+  build:
+    executor: node
+    steps:
+      - checkout
+      - restore_dependency
+      - run:
+          name: ビルド
+          command: npx lerna run build
+      - save_cache:
+          paths:
+            - ./packages/api-schema/lib/
+          key: built-api-schema-{{ .Revision }}
+      - save_cache:
+          paths:
+            - ./packages/client/dist/
+          key: built-client-{{ .Revision }}
+      - save_cache:
+          paths:
+            - ./packages/server/dist/
+          key: built-server-{{ .Revision }}
+  test:
+    executor: node
+    steps:
+      - checkout
+      - restore_dependency
+      - restore_built
+      - run:
+          name: テスト
+          command: npx lerna run test:coverage
+workflows:
+  main:
+    jobs:
+      - install_dependency
+      - build:
+          requires:
+            - install_dependency
+      - test:
+          requires:
+            - build
+    
