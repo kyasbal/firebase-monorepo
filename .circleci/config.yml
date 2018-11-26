@@ -116,7 +116,7 @@ jobs:
           command: npx firebase use staging
       - run:
           name: デプロイ
-          command: npx firebase deploy
+          command: npx firebase deploy --token "$FIREBASE_TOKEN"
   pre_deploy_production:
     executor: node
     steps:
@@ -137,7 +137,7 @@ jobs:
           command: npx firebase use production
       - run:
           name: デプロイ
-          command: npx firebase deploy
+          command: npx firebase deploy --token "$FIREBASE_TOKEN"
 workflows:
   main:
     jobs:
