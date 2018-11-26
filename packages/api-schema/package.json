@@ -18,24 +18,51 @@
     "access": "public"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1",
-    "lint-staged": "lint-staged",
-    "build": "tsc",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "build": "babel src --out-dir lib --extensions \".ts\" --source-maps && npm run build:types",
+    "build:types": "tsc --emitDeclarationOnly",
     "lint:format": "prettier --write --config ../../.prettierrc.json './src/**/*.{js,ts,tsx,scss,json}'",
     "lint": "prettier --list-different --config ../../.prettierrc.json './src/**/*.{js,ts,tsx,scss,json}'"
   },
   "dependencies": {
+    "@babel/cli": "^7.1.5",
+    "@types/jest": "^23.3.9",
     "husky": "^1.2.0",
     "lint-staged": "^8.1.0",
+    "ts-jest": "^23.10.5",
     "typescript": "^3.1.6"
   },
   "devDependencies": {
-    "prettier": "^1.15.2"
+    "@babel/core": "^7.1.6",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-decorators": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-typescript": "^7.1.0",
+    "@types/jest": "^23.3.9",
+    "jest": "^23.6.0",
+    "prettier": "^1.15.2",
+    "ts-jest": "^23.10.5",
+    "ts-jest-babel-7": "^22.0.7"
   },
-  "lint-staged":{
-        "./src/**/*.{js,ts,tsx,scss,json}": [
-          "npm run lint:format",
-          "git add"
-        ]
-  }
+  "lint-staged": {
+    "./src/**/*.{js,ts,tsx,scss,json}": [
+      "npm run lint:format",
+      "git add"
+    ]
+  },
+    "jest": {
+      "transform": {
+        "^.+\\.tsx?$": "ts-jest-babel-7"
+      },
+      "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+      "moduleFileExtensions": [
+        "ts",
+        "tsx",
+        "js",
+        "jsx",
+        "json",
+        "node"
+      ]
+    }
 }

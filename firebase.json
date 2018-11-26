@@ -1,0 +1,11 @@
+{
+    "hosting": {
+        "public": "./packages/client/dist",
+        "ignore":[
+            "**/.*"
+        ]
+    },
+    "functions": {
+        "source": "./packages/server/dist"
+    }
+}

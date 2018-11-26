@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "production": "qiita-firebase-monorepo",
+    "staging": "qiita-firebase-monorepo-stg"
+  }
+}

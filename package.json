@@ -4,8 +4,11 @@
   "devDependencies": {
     "lerna": "^3.4.3"
   },
-  "scripts": {},
+  "scripts": {
+    "deploy": "lerna run build && npx firebase deploy"
+  },
   "dependencies": {
+    "firebase-tools": "^6.1.1",
     "husky": "^1.2.0"
   },
   "husky": {

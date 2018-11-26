@@ -1,3 +1,3 @@
 export class CounterResult {
-  public count: number
+  public count: number = 129
 }

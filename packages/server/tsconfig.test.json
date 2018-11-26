@@ -1,6 +1,5 @@
 {
     "extends": "../../tsconfig.json",
-    "declaration": true,
     "compilerOptions": {
         "outDir": "./lib",
         "declarationDir": "./lib",
@@ -8,6 +7,7 @@
         "baseUrl": "./"
     },
     "include": [
-        "./src"
+        "./src",
+        "./__tests__"
     ]
 }
