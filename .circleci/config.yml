@@ -67,7 +67,7 @@ jobs:
       - save_cache:
           paths:
             - ./packages/api-schema/node_modules/
-          key: dependencies-api-schema-{{ checksum "packages/api-schema/package.copy.json }}
+          key: dependencies-api-schema-{{ checksum "packages/api-schema/package.copy.json" }}
       - save_cache:
           paths:
             - ./packages/client/node_modules/
@@ -105,6 +105,39 @@ jobs:
       - run:
           name: テスト
           command: npx lerna run test:coverage
+  deploy_staging:
+    executor: node
+    steps:
+      - checkout
+      - restore_dependency
+      - restore_built
+      - run:
+          name: デプロイ先の切り替え(Staging)
+          command: npx firebase use staging
+      - run:
+          name: デプロイ
+          command: npx firebase deploy
+  pre_deploy_production:
+    executor: node
+    steps:
+      - run:
+          name: send notification to slack
+          command: >
+              curl -X POST -H 'Content-type: application/json' 
+              --data "{\"text\": \"本番環境へのデプロイにはManual Approvalが必要です。https://staging.altlayer.cloud#DucK を確認の上、本番環境へデプロイしていい場合は次のアドレスから承認してください。<https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}|here>.\"}"
+              $WEBHOOK_URL
+  deploy_production:
+    executor: node
+    steps:
+      - checkout
+      - restore_dependency
+      - restore_built
+      - run:
+          name: デプロイ先の切り替え(Production)
+          command: npx firebase use production
+      - run:
+          name: デプロイ
+          command: npx firebase deploy
 workflows:
   main:
     jobs:
@@ -115,4 +148,32 @@ workflows:
       - test:
           requires:
             - build
-    
+      - deploy_staging:
+          requires:
+            - test
+          filters:
+            branches:
+              only: 
+                - staging
+                - master
+      - pre_deploy_production:
+          requires:
+            - deploy_staging
+          filters:
+            branches:
+              only: 
+                - master
+      - approve_deploy_production:
+          type: approval
+          requires:
+            - pre_deploy_production
+          filters:
+            branches:
+              only: 
+                - master
+      - deploy_production:
+          requires:
+            - approve_deploy_production
+          filters:
+            branches:
+              only: master
