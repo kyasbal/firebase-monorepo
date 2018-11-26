@@ -1,0 +1,56 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2.1
+executors:
+  node:
+    docker: circleci/node:8
+commands:
+  restore_dependency:
+    description: "Restore the dependencies from cache"
+    steps:
+      - restore_cache:
+          keys:
+            - dependencies-root-{{ checksum "package.json" }}
+            - dependencies-root-
+      - restore_cache:
+          keys:
+            - dependencies-api-schema-{{ checksum "packages/api-schema/package.json" }}
+            - dependencies-api-schema-
+      - restore_cache:
+          keys:
+            - dependencies-client-{{ checksum "packages/client/package.json" }}
+            - dependencies-client-
+      - restore_cache:
+          keys:
+            - dependencies-server-{{ checksum "packages/server/package.json" }}
+            - dependencies-server-
+  install_dependency:
+    executor: node
+    steps:
+      - checkout
+      - restore_dependency
+      - run:
+          name: ルートの依存関係のインストール
+          command: npm install
+      - run:
+          name: サブプロジェクトの依存関係のインストール
+          command: npx lerna bootstrap
+      - save_cache:
+          paths:
+            - ./node_modules/
+          key: dependencies-root-{{ checksum "package.json" }}
+      - save_cache:
+          paths:
+            - ./packages/api-schema/node_modules/
+          key: dependencies-root-api-schema-{{ checksum "package.json" }}
+      - save_cache:
+          paths:
+            - ./packages/client/node_modules/
+          key: dependencies-root-client-{{ checksum "package.json" }}
+      - save_cache:
+          paths:
+            - ./packages/server/node_modules/
+          key: dependencies-root-server-{{ checksum "package.json" }}
+      
