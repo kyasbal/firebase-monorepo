@@ -109,7 +109,7 @@ jobs:
           name: Codecovに送る
           command: npx codecov
 
-    deploy_staging:
+  deploy_staging:
     executor: node
     steps:
       - checkout
