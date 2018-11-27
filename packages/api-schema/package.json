@@ -20,7 +20,6 @@
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "test:coverage:ci": "jest --coverage&& codecov -p ../../",
     "build": "babel src --out-dir lib --extensions \".ts\" --source-maps && npm run build:types",
     "build:types": "tsc --emitDeclarationOnly",
     "lint:format": "prettier --write --config ../../.prettierrc.json './src/**/*.{js,ts,tsx,scss,json}'",

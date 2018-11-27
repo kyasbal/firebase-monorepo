@@ -19,7 +19,6 @@
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "test:coverage:ci": "jest --coverage && codecov -p ../../",
     "lint-staged": "lint-staged",
     "build": "webpack --config ./webpack.prod.config.js && cpx 'static/**/*' dist --verbose",
     "build:dev": "webpack --config ./webpack.dev.config.js && cpx 'static/**/*' dist --verbose",

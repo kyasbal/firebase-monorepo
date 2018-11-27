@@ -104,11 +104,12 @@ jobs:
       - restore_built
       - run:
           name: テスト
-          command: npx lerna run test:coverage:ci
+          command: npx lerna run test:coverage
       - run:
-          name: Coverallsに結果を集約する
-          command: curl -k $COVERALLS_ENDPOINT/webhook?repo_token=$COVERALLS_REPO_TOKEN -d "payload[build_num]=$CIRCLE_BUILD_NUM&payload[status]=done"
-  deploy_staging:
+          name: Codecovに送る
+          command: npx codecov
+
+    deploy_staging:
     executor: node
     steps:
       - checkout

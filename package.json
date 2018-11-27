@@ -4,9 +4,9 @@
   "devDependencies": {
     "lerna": "^3.4.3"
   },
-  "scripts": {
-  },
+  "scripts": {},
   "dependencies": {
+    "codecov": "^3.1.0",
     "firebase-tools": "^6.1.1",
     "husky": "^1.2.0"
   },
