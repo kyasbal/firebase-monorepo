@@ -121,6 +121,12 @@ jobs:
       - run:
           name: デプロイ
           command: npx firebase deploy --token "$FIREBASE_TOKEN"
+      - run:
+          name: 'プロダクションリリースへのタグ付け'
+          command: 'git tag staging/rev-${CIRCLE_BUILD_NUM}'
+      - run:
+          name: 'タグのpush'
+          command: 'git push origin --tags'
   pre_deploy_production:
     executor: node
     steps:
@@ -142,6 +148,12 @@ jobs:
       - run:
           name: デプロイ
           command: npx firebase deploy --token "$FIREBASE_TOKEN"
+      - run:
+          name: 'プロダクションリリースへのタグ付け'
+          command: 'git tag production/rev-${CIRCLE_BUILD_NUM}'
+      - run:
+          name: 'タグのpush'
+          command: 'git push origin --tags'
 workflows:
   main:
     jobs:
