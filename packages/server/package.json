@@ -19,6 +19,7 @@
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage",
+    "test:coverage:ci": "jest --coverage | coveralls",
     "build": "webpack && npm run build:copy_entry",
     "build:copy_entry": "cp ./src/*.* ./dist",
     "lint:format": "prettier --write --config ../../.prettierrc.json './src/**/*.{js,ts,tsx,scss,json}'",
@@ -41,6 +42,7 @@
     "@types/jest": "^23.3.9",
     "@types/node": "^10.12.10",
     "babel-loader": "^8.0.4",
+    "coveralls": "^3.0.2",
     "husky": "^1.2.0",
     "jest": "^23.6.0",
     "lint-staged": "^8.1.0",
@@ -57,18 +59,18 @@
       "git add"
     ]
   },
-    "jest": {
-      "transform": {
-        "^.+\\.tsx?$": "ts-jest-babel-7"
-      },
-      "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-      "moduleFileExtensions": [
-        "ts",
-        "tsx",
-        "js",
-        "jsx",
-        "json",
-        "node"
-      ]
-    }
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest-babel-7"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  }
 }

@@ -104,7 +104,10 @@ jobs:
       - restore_built
       - run:
           name: テスト
-          command: npx lerna run test:coverage
+          command: npx lerna run test:coverage:ci
+      - run:
+          name: Coverallsに結果を集約する
+          command: curl -k $COVERALLS_ENDPOINT/webhook?repo_token=$COVERALLS_REPO_TOKEN -d "payload[build_num]=$CIRCLE_BUILD_NUM&payload[status]=done"
   deploy_staging:
     executor: node
     steps:
@@ -124,7 +127,7 @@ jobs:
           name: send notification to slack
           command: >
               curl -X POST -H 'Content-type: application/json' 
-              --data "{\"text\": \"本番環境へのデプロイにはManual Approvalが必要です。https://staging.altlayer.cloud#DucK を確認の上、本番環境へデプロイしていい場合は次のアドレスから承認してください。<https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}|here>.\"}"
+              --data "{\"text\": \"本番環境へのデプロイにはManual Approvalが必要です。http://XXXX を確認の上、本番環境へデプロイしていい場合は次のアドレスから承認してください。<https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}|here>.\"}"
               $WEBHOOK_URL
   deploy_production:
     executor: node

@@ -20,6 +20,7 @@
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage",
+    "test:coverage:ci":"jest --coverage | coveralls",
     "build": "babel src --out-dir lib --extensions \".ts\" --source-maps && npm run build:types",
     "build:types": "tsc --emitDeclarationOnly",
     "lint:format": "prettier --write --config ../../.prettierrc.json './src/**/*.{js,ts,tsx,scss,json}'",
@@ -40,6 +41,7 @@
     "@babel/preset-env": "^7.1.6",
     "@babel/preset-typescript": "^7.1.0",
     "@types/jest": "^23.3.9",
+    "coveralls": "^3.0.2",
     "jest": "^23.6.0",
     "prettier": "^1.15.2",
     "ts-jest": "^23.10.5",
@@ -51,18 +53,18 @@
       "git add"
     ]
   },
-    "jest": {
-      "transform": {
-        "^.+\\.tsx?$": "ts-jest-babel-7"
-      },
-      "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-      "moduleFileExtensions": [
-        "ts",
-        "tsx",
-        "js",
-        "jsx",
-        "json",
-        "node"
-      ]
-    }
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest-babel-7"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  }
 }
