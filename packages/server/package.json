@@ -19,7 +19,7 @@
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "test:coverage:ci": "jest --coverage && codecov",
+    "test:coverage:ci": "jest --coverage && codecov -p ../../",
     "build": "webpack && npm run build:copy_entry",
     "build:copy_entry": "cp ./src/*.* ./dist",
     "lint:format": "prettier --write --config ../../.prettierrc.json './src/**/*.{js,ts,tsx,scss,json}'",
