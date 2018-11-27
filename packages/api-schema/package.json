@@ -20,7 +20,7 @@
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "test:coverage:ci":"jest --coverage --coverageReporters=text-lcov | coveralls ",
+    "test:coverage:ci": "jest --coverage --coverageReporters=text-lcov && codecov ",
     "build": "babel src --out-dir lib --extensions \".ts\" --source-maps && npm run build:types",
     "build:types": "tsc --emitDeclarationOnly",
     "lint:format": "prettier --write --config ../../.prettierrc.json './src/**/*.{js,ts,tsx,scss,json}'",
@@ -29,6 +29,7 @@
   "dependencies": {
     "@babel/cli": "^7.1.5",
     "@types/jest": "^23.3.9",
+    "codecov": "^3.1.0",
     "husky": "^1.2.0",
     "lint-staged": "^8.1.0",
     "ts-jest": "^23.10.5",

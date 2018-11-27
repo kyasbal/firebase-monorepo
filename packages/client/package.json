@@ -19,7 +19,7 @@
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "test:coverage:ci": "jest --coverage --coverageReporters=text-lcov | coveralls",
+    "test:coverage:ci": "jest --coverage --coverageReporters=text-lcov && codecov",
     "lint-staged": "lint-staged",
     "build": "webpack --config ./webpack.prod.config.js && cpx 'static/**/*' dist --verbose",
     "build:dev": "webpack --config ./webpack.dev.config.js && cpx 'static/**/*' dist --verbose",
@@ -30,6 +30,7 @@
   "dependencies": {
     "@firebase-monorepo/api-schema": "^0.0.0",
     "@types/jest": "^23.3.9",
+    "codecov": "^3.1.0",
     "cpx": "^1.5.0",
     "husky": "^1.2.0",
     "lint-staged": "^8.1.0",

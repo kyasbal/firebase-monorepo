@@ -19,7 +19,7 @@
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "test:coverage:ci": "jest --coverage --coverageReporters=text-lcov | coveralls",
+    "test:coverage:ci": "jest --coverage --coverageReporters=text-lcov && codecov",
     "build": "webpack && npm run build:copy_entry",
     "build:copy_entry": "cp ./src/*.* ./dist",
     "lint:format": "prettier --write --config ../../.prettierrc.json './src/**/*.{js,ts,tsx,scss,json}'",
@@ -29,6 +29,7 @@
     "@firebase-monorepo/api-schema": "^0.0.0",
     "@types/express": "^4.16.0",
     "@types/jest": "^23.3.9",
+    "codecov": "^3.1.0",
     "cpx": "^1.5.0",
     "express": "^4.16.4",
     "firebase-admin": "^6.2.0",
