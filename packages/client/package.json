@@ -19,7 +19,7 @@
   "scripts": {
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "test:coverage:ci": "jest --coverage | coveralls",
+    "test:coverage:ci": "jest --coverage --coverageReporters=text-lcov | coveralls",
     "lint-staged": "lint-staged",
     "build": "webpack --config ./webpack.prod.config.js && cpx 'static/**/*' dist --verbose",
     "build:dev": "webpack --config ./webpack.dev.config.js && cpx 'static/**/*' dist --verbose",
